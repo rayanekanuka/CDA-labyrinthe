@@ -5,7 +5,7 @@ class Cell {
         this.columnY = cellData.posY; // colonnes
         this.walls = cellData.walls; // murs
 
-        this.width = 70; // largeur en px
+        this.width = 35; // largeur en px
         this.entrance = cellData.entrance; // entrée
         this.exit = (cellData.exit === true); // sortie
         this.visited = false; // visite
@@ -18,7 +18,7 @@ class Cell {
         cellDOM.id = ['cell', this.rowX, this.columnY].join('-')
         cellDOM.style.width = this.width + 'px';
         cellDOM.style.height = this.width + 'px';
-        cellDOM.style.border = 'solid 1px red';
+        cellDOM.style.border = 'solid 3px red';
         cellDOM.style.backgroundColor = 'black';
 
         // Entrée et sortie du labyrinthe
