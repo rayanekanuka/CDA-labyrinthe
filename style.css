@@ -1,35 +1,84 @@
-h1 {
-    color: rgb(78, 99, 196);
-}
-
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+h1 {
+    color: rgb(78, 99, 196);
+    margin: 20px 0;
+}
+
+/* ========== LABYRINTHE ========== */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
 #labyby {
     display: flex;
     flex-wrap: wrap;
-    color: brown;
 }
 
-div {
+/* ========== LÉGENDE ========== */
+.legend {
     display: flex;
     justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    color: #444;
+    margin: 20px 0;
+}
+
+.legend-item {
+    display: flex;
     align-items: center;
+    gap: 8px;
 }
 
-img{
-    width: 98px;
+.legend-color {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid #999;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
 }
 
-/*.entrance{*/
-/*    background-image: url("https://m.media-amazon.com/images/I/81dkKe0akYL.jpg");*/
-/*    background-repeat: no-repeat;*/
-/*    background-size: 100%;*/
+.legend-entry { background-color: gold; }
+.legend-exit { background-color: darkmagenta; }
+.legend-wall { background-color: red; }
+.legend-path { background-color: #111; }
+
+/* ========== CELLULES ========== */
+/*.cell {*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    font-size: 0.8rem;*/
+/*    border-radius: 4px;*/
 /*}*/
 
-/*.exit{*/
-/*    background-image: url("https://i.pinimg.com/originals/c2/73/fd/c273fdcf952cf23cf65b0eadb9a6cdf7.jpg");*/
-/*    background-repeat: no-repeat;*/
-/*    background-size: 100%;*/
+/*.cell:hover {*/
+/*    transform: scale(1.05);*/
 /*}*/
+
+/*!* Couleurs selon le type de cellule *!*/
+/*.entrance { background-color: gold; }*/
+/*.exit { background-color: darkmagenta; }*/
+/*.wall { background-color: #c91515; }*/
+/*.path { background-color: #111; }*/
