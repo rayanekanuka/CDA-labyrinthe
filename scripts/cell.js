@@ -9,10 +9,10 @@ class Cell {
         this.entrance = cellData.entrance; // entrée
         this.exit = (cellData.exit === true); // sortie
         this.visited = false; // visite
-        this.cross = false; // intersection 
+        this.cross = false; // intersection
     }
 
-    // On 'fabrique' une div pour la cellule
+    // Création de la cellule dans le DOM
     getDOM() {
         let cellDOM = document.createElement('div');
         cellDOM.id = ['cell', this.rowX, this.columnY].join('-')
@@ -24,9 +24,17 @@ class Cell {
         // Entrée et sortie du labyrinthe
         if (this.entrance) {
             cellDOM.style.backgroundColor = 'gold';
+            cellDOM.style.backgroundImage = "url('https://m.media-amazon.com/images/I/81dkKe0akYL.jpg')";
+            cellDOM.style.backgroundSize = 90 + '%';
+            cellDOM.style.backgroundRepeat = "no-repeat";
+            cellDOM.style.backgroundPosition = "center";
         }
         if (this.exit) {
             cellDOM.style.backgroundColor = 'darkmagenta';
+            cellDOM.style.backgroundImage = "url('https://cdn-icons-png.flaticon.com/512/60/60577.png')";
+            cellDOM.style.backgroundSize = 75 + '%';
+            cellDOM.style.backgroundRepeat = "no-repeat";
+            cellDOM.style.backgroundPosition = "center";
         }
         // Bordure de chaque cellule
         cellDOM.style.borderWidth = this.computeBorders();
@@ -34,7 +42,7 @@ class Cell {
     }
 
     // Fonction fléchée + opérateur ternaire "?"" (alors) ":" (sinon)
-    // [true, true, false, true] en '1px 1px 0px 1px' 
+    // [true, true, false, true] en '1px 1px 0px 1px'
     computeBorders() {
         return this.walls.map(wall => wall ? '1px' : '0px').join(' ')
     }
