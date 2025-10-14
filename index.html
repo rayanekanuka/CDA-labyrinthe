@@ -7,11 +7,40 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>🌀 Labyrinthe 🌀</h1>
-<div id="labyby"></div>
-    <script src="./data.js"></script>
-    <script src="./scripts/cell.js"></script>
-    <script src="./scripts/labyrinthe.js"></script>
-    <script src="./scripts/main.js"></script>
+<header>
+    <h1>🌀 Labyrinthe 🌀</h1>
+</header>
+
+<!-- Conteneur du labyrinthe -->
+<main>
+    <div id="labyby"></div>
+</main>
+
+<!-- Légende -->
+<footer>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color legend-entry"></div>
+            <span>Entrée</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color legend-exit"></div>
+            <span>Sortie</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color legend-wall"></div>
+            <span>Mur</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color legend-path"></div>
+            <span>Chemin</span>
+        </div>
+    </div>
+</footer>
+
+<script src="./data.js"></script>
+<script src="./scripts/cell.js"></script>
+<script src="./scripts/labyrinthe.js"></script>
+<script src="./scripts/main.js"></script>
 </body>
 </html>
