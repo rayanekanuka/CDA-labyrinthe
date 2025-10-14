@@ -6,7 +6,7 @@ let labyData = data[size][ex];
 // Création du labyrinthe
 let labyrinthe = new Labyrinthe(labyData);
 
-// On appelle la fonction 'display'
+// On appelle la fonction 'display' pour lancer l'affichage
 labyrinthe.display();
 
 console.log("C'est l'entrée",labyrinthe.getStart())
