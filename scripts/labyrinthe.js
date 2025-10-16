@@ -16,7 +16,7 @@ class Labyrinthe {
     display() {
 
         // Get le container principal
-        let container = document.getElementById('labyby');
+        let container = document.getElementById('maze');
 
         // On calcule la largeur (en nombre de cellules)
         // ex : si 9 cellules --> carré de taille 3 x 3 cellules 
@@ -28,7 +28,7 @@ class Labyrinthe {
         container.style.width = computed_width + 'px';
 
         // Ajoute la classe CSS 'main-container' à la div 
-        container.classList.add('main-labyby');
+        container.classList.add('main-maze');
 
         // Get la representation DOM de chacune des cellules
         for (let cell of this.cells) {
@@ -57,7 +57,7 @@ class Labyrinthe {
         if (!cell) return [];
 
         let neighbors = [];
-        // Haut, Droite, Bas, Gauche (en cohérence avec l'ordre des murs)
+        // Haut, Droite, Bas, Gauche
         if (!cell.walls[0]) {
             const up = this.getPosition(cell.rowX - 1, cell.columnY);
             if (up && !up.visited) neighbors.push(up);
@@ -81,19 +81,19 @@ class Labyrinthe {
         return cell.isVisited();
     }
 
-    // Résolution intuitive (DFS avec retour arrière)
+    // Résolution intuitive du labyrinthe
     solve() {
         const start = this.getStart();
         const exit = this.getExit();
         let current = start;
         const stack = [];
 
-        // Optionnel: marquer visuellement le chemin
+        // Marquer visuellement le chemin
         const markPath = (cell, on) => {
             try {
                 const el = document.getElementById(['cell', cell.rowX, cell.columnY].join('-'));
                 if (el) {
-                    el.style.backgroundColor = on ? '#1f6feb' : (cell.exit ? 'darkmagenta' : (cell.entrance ? 'gold' : 'black'));
+                    el.style.backgroundColor = on ? '#E9A551' : (cell.exit ? 'darkmagenta' : (cell.entrance ? 'gold' : 'black'));
                 }
             } catch (_) { /* no-op */ }
         };

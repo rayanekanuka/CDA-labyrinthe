@@ -18,20 +18,20 @@ class Cell {
         cellDOM.id = ['cell', this.rowX, this.columnY].join('-')
         cellDOM.style.width = this.width + 'px';
         cellDOM.style.height = this.width + 'px';
-        cellDOM.style.border = 'solid 3px red';
-        cellDOM.style.backgroundColor = 'black';
+        cellDOM.style.border = 'solid 3px black';
+        cellDOM.style.backgroundColor = '#ece5f0';
 
         // Entrée et sortie du labyrinthe
         if (this.entrance) {
             cellDOM.style.backgroundColor = 'gold';
-            cellDOM.style.backgroundImage = "url('https://m.media-amazon.com/images/I/81dkKe0akYL.jpg')";
+            cellDOM.style.backgroundImage = "url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDl5MzRwZ2Y3MjRydjJmdGM0aXhudWlxcmZ2bDlya2NmYjdrbzBpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/91BCkba1STSmzb4UWK/giphy.gif')";
             cellDOM.style.backgroundSize = 90 + '%';
             cellDOM.style.backgroundRepeat = "no-repeat";
             cellDOM.style.backgroundPosition = "center";
         }
         if (this.exit) {
             cellDOM.style.backgroundColor = 'darkmagenta';
-            cellDOM.style.backgroundImage = "url('https://cdn-icons-png.flaticon.com/512/60/60577.png')";
+            cellDOM.style.backgroundImage = "url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGptN3pzczVqdWt4eXhsOTRiMnl5MmExcnFkcTBnczZ5c20xajAyNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YUOfIPbz85vmhT2J6y/giphy.gif')";
             cellDOM.style.backgroundSize = 75 + '%';
             cellDOM.style.backgroundRepeat = "no-repeat";
             cellDOM.style.backgroundPosition = "center";

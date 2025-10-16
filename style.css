@@ -27,7 +27,7 @@ main {
     padding: 20px;
 }
 
-#labyby {
+#maze {
     display: flex;
     flex-wrap: wrap;
 }

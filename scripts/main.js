@@ -1,5 +1,5 @@
 // Selection du labyrinthe
-let size = '6';
+let size = '10';
 let ex = 'ex-1';
 let labyData = data[size][ex];
 
