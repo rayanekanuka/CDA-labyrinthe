@@ -40,8 +40,8 @@ class Labyrinthe {
 
     getStart() {
         let start = this.cells.find(cell => cell.entrance);
-        start.visited = true
-        return start
+        start.visited = true;
+        return start;
     }
 
     getExit() {
@@ -52,67 +52,77 @@ class Labyrinthe {
         return this.cells.find(element => element.rowX === x && element.columnY === y);
     }
 
-    setPlayer() {
-        this.PlayerX = this.getStart().rowX
-        this.PlayerY = this.getStart().columnY
-    }
-
-    displayPlayer() {
-        let pawn = document.createElement("img")
-        $(pawn).attr("src", "https://cdn.bizzotto.com/media/catalog/product/cache/03c842fc66811009131946d59a1902eb/0/7/0790653_-decorazione_chess_pedone_antracite_1648434469.jpg")
-        document.getElementById(this.PlayerX + "-" + this.PlayerY).append(pawn)
-    }
-
+    // Renvoie les voisins accessibles (sans mur) et non visités
     getUnvisitedNeighbors(cell) {
-        console.log('Nous avons ici')
-        console.log('posX', cell.rowX)
-        console.log('posY', cell.columnY)
-        console.log('walls', cell.walls)
-        console.log('visited', cell.visited)
+        if (!cell) return [];
 
-        let neighbors = []
+        let neighbors = [];
+        // Haut, Droite, Bas, Gauche (en cohérence avec l'ordre des murs)
         if (!cell.walls[0]) {
-            neighbors.push(this.getPosition(cell.rowX - 1, cell.columnY)); // Haut
+            const up = this.getPosition(cell.rowX - 1, cell.columnY);
+            if (up && !up.visited) neighbors.push(up);
         }
         if (!cell.walls[1]) {
-            neighbors.push(this.getPosition(cell.rowX, cell.columnY + 1)); // Droite
+            const right = this.getPosition(cell.rowX, cell.columnY + 1);
+            if (right && !right.visited) neighbors.push(right);
         }
         if (!cell.walls[2]) {
-            neighbors.push(this.getPosition(cell.rowX + 1, cell.columnY)); // Bas
+            const down = this.getPosition(cell.rowX + 1, cell.columnY);
+            if (down && !down.visited) neighbors.push(down);
         }
         if (!cell.walls[3]) {
-            neighbors.push(this.getPosition(cell.rowX, cell.columnY - 1)); // Gauche
+            const left = this.getPosition(cell.rowX, cell.columnY - 1);
+            if (left && !left.visited) neighbors.push(left);
         }
-        console.log("cases dispos :", neighbors)
-        return neighbors
+        return neighbors;
     }
 
     pingVisited(cell) {
-        return cell.isVisited()
+        return cell.isVisited();
     }
 
-    moves() {
-        this.getUnvisitedNeighbors(this.getPosition(this.rowX, this.columnY));
-        // this.PlayerX = ...
-        // this.PlayerY = ...
-        // this.pingVisited()
-
-    }
-
+    // Résolution intuitive (DFS avec retour arrière)
     solve() {
-        if (!(this.PlayerX === this.getExit().rawX && this.PlayerY === this.getExit().columnY)) {
-            this.movePlayer()
-            this.displayPlayer()
-        } else {
-            console.log("BRAVO c'est gagné !!!!!!")
-        }
-    }
+        const start = this.getStart();
+        const exit = this.getExit();
+        let current = start;
+        const stack = [];
 
-    // let directions = [
-    //     {x:-1, y: 0},
-    //     {x:0, y: 1},
-    //     {x:1, y: 0},
-    //     {x:0, y: -1}, 
-    // ];
+        // Optionnel: marquer visuellement le chemin
+        const markPath = (cell, on) => {
+            try {
+                const el = document.getElementById(['cell', cell.rowX, cell.columnY].join('-'));
+                if (el) {
+                    el.style.backgroundColor = on ? '#1f6feb' : (cell.exit ? 'darkmagenta' : (cell.entrance ? 'gold' : 'black'));
+                }
+            } catch (_) { /* no-op */ }
+        };
+
+        markPath(current, true);
+
+        // Tant que la position courante n'est pas la sortie
+        while (!(current.rowX === exit.rowX && current.columnY === exit.columnY)) {
+            const unvisited = this.getUnvisitedNeighbors(current);
+            if (unvisited.length > 0) {
+                // Aller sur un voisin non visité
+                stack.push(current);
+                const next = unvisited[0];
+                next.visited = true;
+                current = next;
+                markPath(current, true);
+            } else {
+                // Revenir en arrière jusqu'à trouver une case avec un voisin non visité
+                if (stack.length === 0) {
+                    console.warn("Aucun chemin vers la sortie n'a été trouvé.");
+                    return false;
+                }
+                const back = stack.pop();
+                current = back;
+                // on conserve le marquage des cases du chemin actuel
+            }
+        }
+        console.log('Sortie trouvée !');
+        return true;
+    }
 
 }
