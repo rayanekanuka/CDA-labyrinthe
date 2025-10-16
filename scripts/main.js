@@ -1,18 +1,46 @@
-// Selection du labyrinthe
-let size = '10';
-let ex = 'ex-1';
-let labyData = data[size][ex];
+// === Utils ===
+const getRandomItem = arr => arr[Math.floor(Math.random() * arr.length)];
 
-// Création du labyrinthe
-let labyrinthe = new Labyrinthe(labyData);
+function pickRandomMazeData() {
+    // Récupère toutes les tailles disponibles (clés de premier niveau)
+    const sizes = Object.keys(data);
+    const size = getRandomItem(sizes);
 
-// On appelle la fonction 'display' pour lancer l'affichage
-labyrinthe.display();
+    // Récupère tous les exemples disponibles pour cette taille (clés du second niveau)
+    const examples = Object.keys(data[size]);
+    const ex = getRandomItem(examples);
 
-console.log("C'est l'entrée",labyrinthe.getStart())
-console.log("C'est la sortie",labyrinthe.getExit())
-console.log("----------------------------------------------")
-// labyrinthe.getUnvisitedNeighbors(labyrinthe.getPosition(0, 2));
-// console.log("----------------------------------------------")
-// console.log("je suis passé par là ?", labyrinthe.pingVisited(labyrinthe.cells[30]))
-labyrinthe.solve();
+    return { size, ex, labyData: data[size][ex] };
+}
+
+function renderMaze(labyData) {
+    // Nettoyer le conteneur pour réafficher à neuf
+    const container = document.getElementById('maze');
+    container.innerHTML = '';
+
+    // Créer et afficher le labyrinthe
+    const labyrinthe = new Labyrinthe(labyData);
+    labyrinthe.display();
+
+    // Lancer directement la résolution
+    labyrinthe.solve();
+
+    return labyrinthe;
+}
+
+// === Chargement initial (choix fixe ou aléatoire) ===
+// Si on veut garder un choix fixe au chargement, décommenter ceci:
+// let size = '10';
+// let ex = 'ex-1';
+// renderMaze(data[size][ex]);
+
+// Sinon: labyrinthe aléatoire dès le chargement
+const first = pickRandomMazeData();
+renderMaze(first.labyData);
+
+// === Bouton "Labyrinthe au hasard" ===
+document.getElementById('randomMaze').addEventListener('click', () => {
+    const { size, ex, labyData } = pickRandomMazeData();
+    console.log(`Labyrinthe tiré au hasard → size: ${size}, ex: ${ex}`);
+    renderMaze(labyData);
+});
