@@ -32,35 +32,19 @@ main {
     flex-wrap: wrap;
 }
 
-/* ========== LÉGENDE ========== */
-.legend {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    font-size: 0.95rem;
-    color: #444;
-    margin: 20px 0;
-}
+/* ========== BOUTONS ========== */
 
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+#randomMaze {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: rgb(18, 31, 89);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-
-.legend-color {
-    width: 18px;
-    height: 18px;
-    border-radius: 3px;
-    border: 1px solid #999;
-    box-shadow: 0 0 3px rgba(0,0,0,0.2);
-}
-
-.legend-entry { background-color: gold; }
-.legend-exit { background-color: darkmagenta; }
-.legend-wall { background-color: red; }
-.legend-path { background-color: #111; }
 
 /* ========== CELLULES ========== */
 /*.cell {*/
