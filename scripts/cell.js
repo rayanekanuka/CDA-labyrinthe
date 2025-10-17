@@ -45,12 +45,4 @@ class Cell {
         return this.walls.map(wall => wall ? '1px' : '0px').join(' ')
     }
 
-    setVisited() {
-        this.visited = true
-    }
-
-    isVisited(){
-        return this.visited
-    }
-
 }

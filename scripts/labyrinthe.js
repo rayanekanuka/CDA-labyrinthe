@@ -55,7 +55,19 @@ class Labyrinthe {
         this.cells.forEach(cell => {
             cell.visited = false;
             const el = document.getElementById(`cell-${cell.rowX}-${cell.columnY}`);
-            if (el) el.style.backgroundColor = '';
+            if (!el) return;
+
+            // Couleur de fond par défaut
+            if (cell.entrance) {
+                el.style.backgroundColor = '#ece5f0';
+            }
+            else if (cell.exit) {
+                el.style.backgroundColor = '#ece5f0';
+            }
+            else {
+                el.style.backgroundColor = '#ece5f0';
+                el.style.backgroundImage = 'none';
+            }
         });
     }
 
@@ -79,7 +91,7 @@ class Labyrinthe {
         // Couleurs utilisées
         const colors = {
             path: '#E9A551',      // exploration
-            backtrack: '#444',    // retourner en arrière
+            backtrack: '#548037',    // retourner en arrière
         };
 
         // Marquer la case de départ

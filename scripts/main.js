@@ -39,6 +39,7 @@ document.getElementById('randomMaze').addEventListener('click', () => {
     console.clear();
     console.log(`🎲 Nouveau labyrinthe → ${size}x${size} (${ex})`);
     currentMaze = renderMaze(labyData);
+    currentMaze.resetVisited();
 });
 
 // === Bouton "DFS" ===
