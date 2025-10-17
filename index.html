@@ -3,32 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌀 Le labyrinthe 🌀</title>
+    <title>🌀 MagicMaze</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
-    <h1>🌀 Labyrinthe 🌀</h1>
+    <h1>⛓️ Labyrinthe ⛓️</h1>
 </header>
-
-<button id="randomMaze">Lancez</button>
-
-<div class="buttons">
-    <button id="btn-dfs">Résoudre en DFS</button>
-    <button id="btn-bfs">Résoudre en BFS</button>
-</div>
-
-<div class="countdown">
-    <div id="timer" style="margin: 10px 0; font-weight: bold; font-size: 1.2rem;">
-        Temps : 0 s
-    </div>
-    <button id="btn-stop">Arrêt</button>
-</div>
 
 <!-- Conteneur du labyrinthe -->
 <main>
     <div id="maze"></div>
+
+    <div class="controls">
+        <button id="randomMaze">Lancez</button>
+
+        <div class="buttonsAlgo">
+            <button id="btn-dfs">Résoudre en DFS</button>
+            <button id="btn-bfs">Résoudre en BFS</button>
+        </div>
+
+        <div class="countdown">
+            <div id="timer">Temps : 0 s</div>
+            <button id="btn-stop">Arrêt</button>
+        </div>
+    </div>
 </main>
+
 
 <script src="./data.js"></script>
 <script src="./scripts/cell.js"></script>
