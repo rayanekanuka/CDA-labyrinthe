@@ -32,6 +32,7 @@ function renderMaze(labyData) {
 // === Timer ===
 
 let timerInterval = null;
+let stopAlgo = false;
 
 function startLiveTimer() {
     const startTime = performance.now();
@@ -45,14 +46,13 @@ function startLiveTimer() {
         const formatted = elapsed.toFixed(1).replace('.', ',');
 
         // Affichage du temps
-        timerEl.textContent = `Temps : ${elapsed} ms`;
+        timerEl.textContent = `Temps : ${elapsed} s`;
 
         // Couleur selon durée
-        if (elapsed < 4) timerEl.style.color = 'green';       // rapide
-        else if (elapsed < 5) timerEl.style.color = 'orange'; // moyen
+        if (elapsed < 10) timerEl.style.color = 'green';       // rapide
+        else if (elapsed < 20) timerEl.style.color = 'orange'; // moyen
         else timerEl.style.color = 'red';                     // long
-
-    }, 10);
+    }, 100); // refresh
 
     return startTime;
 }
