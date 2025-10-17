@@ -4,53 +4,26 @@ class Labyrinthe {
         this.cells = this.initCells(labyData);
     }
 
+
     initCells(labyData) {
-        let cells = [];
-        for (let cellData of labyData) {
-            let cell = new Cell(cellData);
-            cells.push(cell);
-        }
-        return cells;
+        return labyData.map(cellData => new Cell(cellData));
     }
 
     display() {
+        const container = document.getElementById('maze');
+        container.innerHTML = '';
 
-        // Get le container principal
-        let container = document.getElementById('maze');
-
-        // On calcule la largeur (en nombre de cellules)
-        // ex : si 9 cellules --> carré de taille 3 x 3 cellules 
-        let nbre_cells_largeur = Math.sqrt(this.cells.length);
-
-        // Compute width du main container
+        const nbre_cells_largeur = Math.sqrt(this.cells.length);
         let computed_width = nbre_cells_largeur * this.cells[0].width;
-
         container.style.width = computed_width + 'px';
-
         // Ajoute la classe CSS 'main-container' à la div 
         container.classList.add('main-maze');
-
         // Get la representation DOM de chacune des cellules
-        for (let cell of this.cells) {
-            let cellDOM = cell.getDOM();
-            container.appendChild(cellDOM);
-        }
-
+        this.cells.forEach(cell => container.appendChild(cell.getDOM()));
     }
 
     getStart() {
         return this.cells.find(cell => cell.entrance);
-    }
-
-    // Réinitialise l'état des cellules pour relancer un algo
-    resetVisited() {
-        this.cells.forEach(cell => {
-            cell.visited = false;
-
-            // remettre la couleur initiale
-            const el = document.getElementById(`cell-${cell.rowX}-${cell.columnY}`);
-            if (el) el.style.backgroundColor = '';
-        });
     }
 
     getExit() {
@@ -64,30 +37,26 @@ class Labyrinthe {
     // Renvoie les voisins accessibles (sans mur) et non visités
     getUnvisitedNeighbors(cell) {
         if (!cell) return [];
-
-        let neighbors = [];
-        // Haut, Droite, Bas, Gauche
-        if (!cell.walls[0]) {
-            const up = this.getPosition(cell.rowX - 1, cell.columnY);
-            if (up && !up.visited) neighbors.push(up);
-        }
-        if (!cell.walls[1]) {
-            const right = this.getPosition(cell.rowX, cell.columnY + 1);
-            if (right && !right.visited) neighbors.push(right);
-        }
-        if (!cell.walls[2]) {
-            const down = this.getPosition(cell.rowX + 1, cell.columnY);
-            if (down && !down.visited) neighbors.push(down);
-        }
-        if (!cell.walls[3]) {
-            const left = this.getPosition(cell.rowX, cell.columnY - 1);
-            if (left && !left.visited) neighbors.push(left);
+        const neighbors = [];
+        const dirs = [[-1,0],[0,1],[1,0],[0,-1]]; // Haut, Droite, Bas, Gauche
+        for (let i=0;i<4;i++) {
+            if (!cell.walls[i]) {
+                const nx = cell.rowX + dirs[i][0];
+                const ny = cell.columnY + dirs[i][1];
+                const neighbor = this.getPosition(nx, ny);
+                if (neighbor && !neighbor.visited) neighbors.push(neighbor);
+            }
         }
         return neighbors;
     }
 
-    pingVisited(cell) {
-        return cell.isVisited();
+    // Réinitialise l'état des cellules pour relancer un algo
+    resetVisited() {
+        this.cells.forEach(cell => {
+            cell.visited = false;
+            const el = document.getElementById(`cell-${cell.rowX}-${cell.columnY}`);
+            if (el) el.style.backgroundColor = '';
+        });
     }
 
     // Résolution par DFS (LIFO)
@@ -167,8 +136,8 @@ class Labyrinthe {
         };
 
         const colors = {
-            explore: '#4FC3F7',  // bleu clair : exploration en largeur
-            finalPath: '#1E88E5' // bleu foncé : chemin final trouvé
+            explore: '#4FC3F7',  // bleu clair : exploration
+            finalPath: '#1E88E5' // bleu foncé : chemin final
         };
 
         // Parcours en largeur
