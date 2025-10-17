@@ -73,6 +73,7 @@ class Labyrinthe {
 
     // Résolution par DFS (LIFO)
     async solveDFS(speed = 100) {
+        stopAlgo = false;
         const start = this.getStart();
         const exit = this.getExit();
         let current = start;
@@ -99,6 +100,8 @@ class Labyrinthe {
 
         // Tant que la position courante n'est pas la sortie, parcours en profondeur
         while (!(current.rowX === exit.rowX && current.columnY === exit.columnY)) {
+            if (stopAlgo) break;
+
             const unvisited = this.getUnvisitedNeighbors(current);
 
             if (unvisited.length > 0) {
@@ -133,6 +136,7 @@ class Labyrinthe {
 
     // Résolution par BFS
     async solveBFS(speed = 100) {
+        stopAlgo = false;
         const start = this.getStart();
         const exit = this.getExit();
 
@@ -154,6 +158,7 @@ class Labyrinthe {
 
         // Parcours en largeur
         while (queue.length > 0) {
+            if (stopAlgo) break;
             const current = queue.shift(); // prend la 1re cellule de la file
             if (current.rowX === exit.rowX && current.columnY === exit.columnY) {
                 console.log("Sortie trouvée avec BFS !");

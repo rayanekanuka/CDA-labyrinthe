@@ -102,3 +102,10 @@ document.getElementById('btn-bfs').addEventListener('click', async () => {
     await currentMaze.solveBFS(70);
     stopLiveTimer();
 });
+
+// === Bouton STOP ===
+document.getElementById('btn-stop').addEventListener('click', () => {
+    stopAlgo = true; // stoppe l'algo
+    stopLiveTimer(); // stoppe le timer
+    console.log("Algorithme arrêté !");
+});
