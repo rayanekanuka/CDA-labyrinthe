@@ -23,14 +23,12 @@ class Cell {
 
         // Entrée et sortie du labyrinthe
         if (this.entrance) {
-            cellDOM.style.backgroundColor = 'gold';
             cellDOM.style.backgroundImage = "url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDl5MzRwZ2Y3MjRydjJmdGM0aXhudWlxcmZ2bDlya2NmYjdrbzBpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/91BCkba1STSmzb4UWK/giphy.gif')";
             cellDOM.style.backgroundSize = 90 + '%';
             cellDOM.style.backgroundRepeat = "no-repeat";
             cellDOM.style.backgroundPosition = "center";
         }
         if (this.exit) {
-            cellDOM.style.backgroundColor = 'darkmagenta';
             cellDOM.style.backgroundImage = "url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGptN3pzczVqdWt4eXhsOTRiMnl5MmExcnFkcTBnczZ5c20xajAyNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YUOfIPbz85vmhT2J6y/giphy.gif')";
             cellDOM.style.backgroundSize = 75 + '%';
             cellDOM.style.backgroundRepeat = "no-repeat";

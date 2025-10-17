@@ -39,9 +39,18 @@ class Labyrinthe {
     }
 
     getStart() {
-        let start = this.cells.find(cell => cell.entrance);
-        start.visited = true;
-        return start;
+        return this.cells.find(cell => cell.entrance);
+    }
+
+    // Réinitialise l'état des cellules pour relancer un algo
+    resetVisited() {
+        this.cells.forEach(cell => {
+            cell.visited = false;
+
+            // remettre la couleur initiale
+            const el = document.getElementById(`cell-${cell.rowX}-${cell.columnY}`);
+            if (el) el.style.backgroundColor = '';
+        });
     }
 
     getExit() {
@@ -81,48 +90,123 @@ class Labyrinthe {
         return cell.isVisited();
     }
 
-    // Résolution intuitive du labyrinthe
-    solve() {
+    // Résolution par DFS (LIFO)
+    async solveDFS(speed = 100) {
         const start = this.getStart();
         const exit = this.getExit();
         let current = start;
         const stack = [];
+        const path = [];
 
-        // Marquer visuellement le chemin
-        const markPath = (cell, on) => {
-            try {
-                const el = document.getElementById(['cell', cell.rowX, cell.columnY].join('-'));
-                if (el) {
-                    el.style.backgroundColor = on ? '#E9A551' : (cell.exit ? 'darkmagenta' : (cell.entrance ? 'gold' : 'black'));
-                }
-            } catch (_) { /* no-op */ }
+        // Délai pour le chemin
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Coloration du chemin
+        const markPath = (cell, color) => {
+            const el = document.getElementById(`cell-${cell.rowX}-${cell.columnY}`);
+            if (el) el.style.backgroundColor = color;
         };
 
-        markPath(current, true);
+        // Couleurs utilisées
+        const colors = {
+            path: '#E9A551',      // exploration
+            backtrack: '#444',    // retourner en arrière
+        };
 
-        // Tant que la position courante n'est pas la sortie
+        // Marquer la case de départ
+        markPath(current);
+
+        // Tant que la position courante n'est pas la sortie, parcours en profondeur
         while (!(current.rowX === exit.rowX && current.columnY === exit.columnY)) {
             const unvisited = this.getUnvisitedNeighbors(current);
+
             if (unvisited.length > 0) {
-                // Aller sur un voisin non visité
                 stack.push(current);
                 const next = unvisited[0];
                 next.visited = true;
                 current = next;
-                markPath(current, true);
+
+                markPath(current, colors.path);
+                // enregistrer les coordonnées dans le chemin
+                path.push([current.rowX, current.columnY]);
+
             } else {
-                // Revenir en arrière jusqu'à trouver une case avec un voisin non visité
                 if (stack.length === 0) {
-                    console.warn("Aucun chemin vers la sortie n'a été trouvé.");
+                    console.warn("Aucun chemin trouvé !");
                     return false;
                 }
                 const back = stack.pop();
                 current = back;
-                // on conserve le marquage des cases du chemin actuel
+
+                markPath(current, colors.backtrack);
+            }
+
+            await delay(speed);
+        }
+
+        // Sortie atteinte
+        console.log("Sortie trouvée !");
+        console.log("Chemin parcouru :", path);
+        return path;
+    }
+
+    // Résolution par BFS
+    async solveBFS(speed = 100) {
+        const start = this.getStart();
+        const exit = this.getExit();
+
+        // file d’attente (queue, FIFO)
+        const queue = [start];
+        const cameFrom = new Map(); // pour reconstruire le chemin plus tard
+        start.visited = true;
+
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        const markPath = (cell, color) => {
+            const el = document.getElementById(`cell-${cell.rowX}-${cell.columnY}`);
+            if (el) el.style.backgroundColor = color;
+        };
+
+        const colors = {
+            explore: '#4FC3F7',  // bleu clair : exploration en largeur
+            finalPath: '#1E88E5' // bleu foncé : chemin final trouvé
+        };
+
+        // Parcours en largeur
+        while (queue.length > 0) {
+            const current = queue.shift(); // prend la 1re cellule de la file
+            if (current.rowX === exit.rowX && current.columnY === exit.columnY) {
+                console.log("Sortie trouvée avec BFS !");
+                break;
+            }
+
+            const neighbors = this.getUnvisitedNeighbors(current);
+            for (const neighbor of neighbors) {
+                if (!neighbor.visited) {
+                    neighbor.visited = true;
+                    cameFrom.set(neighbor, current); // on mémorise d’où on vient
+                    queue.push(neighbor);
+                    markPath(neighbor, colors.explore);
+                    await delay(speed);
+                }
             }
         }
-        console.log('Sortie trouvée !');
-        return true;
+
+        // Reconstruction du chemin final
+        let path = [];
+        let current = exit;
+        while (cameFrom.has(current)) {
+            path.push(current);
+            current = cameFrom.get(current);
+        }
+        path.reverse();
+
+        // Animation du chemin final
+        for (const cell of path) {
+            markPath(cell, colors.finalPath);
+            await delay(50);
+        }
+
+        console.log("🧭 Chemin le plus court :", path.map(c => [c.rowX, c.columnY]));
     }
 
 }

@@ -10,8 +10,12 @@ function pickRandomMazeData() {
     const examples = Object.keys(data[size]);
     const ex = getRandomItem(examples);
 
-    return { size, ex, labyData: data[size][ex] };
+    console.log("Random choisi :", size, ex);
+
+    return {size, ex, labyData: data[size][ex]};
 }
+
+let currentMaze = null;
 
 function renderMaze(labyData) {
     // Nettoyer le conteneur pour réafficher à neuf
@@ -22,25 +26,37 @@ function renderMaze(labyData) {
     const labyrinthe = new Labyrinthe(labyData);
     labyrinthe.display();
 
-    // Lancer directement la résolution
-    labyrinthe.solve();
-
     return labyrinthe;
 }
 
-// === Chargement initial (choix fixe ou aléatoire) ===
-// Si on veut garder un choix fixe au chargement, décommenter ceci:
-// let size = '10';
-// let ex = 'ex-1';
-// renderMaze(data[size][ex]);
-
-// Sinon: labyrinthe aléatoire dès le chargement
+// === Chargement initial ===
 const first = pickRandomMazeData();
-renderMaze(first.labyData);
+currentMaze = renderMaze(first.labyData);
 
-// === Bouton "Labyrinthe au hasard" ===
+// === Bouton "Labyrinthe aléatoire" ===
 document.getElementById('randomMaze').addEventListener('click', () => {
-    const { size, ex, labyData } = pickRandomMazeData();
-    console.log(`Labyrinthe tiré au hasard → size: ${size}, ex: ${ex}`);
-    renderMaze(labyData);
+    const {size, ex, labyData} = pickRandomMazeData();
+    console.clear();
+    console.log(`🎲 Nouveau labyrinthe → ${size}x${size} (${ex})`);
+    currentMaze = renderMaze(labyData);
+});
+
+// === Bouton "DFS" ===
+document.getElementById('btn-dfs').addEventListener('click', async () => {
+    if (!currentMaze) return;
+
+    currentMaze.resetVisited();
+    console.clear();
+    console.log("🚀 Lancement DFS...");
+    await currentMaze.solveDFS(70);
+});
+
+// === Bouton "BFS" ===
+document.getElementById('btn-bfs').addEventListener('click', async () => {
+    if (!currentMaze) return;
+
+    currentMaze.resetVisited();
+    console.clear();
+    console.log("🌊 Lancement BFS...");
+    await currentMaze.solveBFS(70);
 });
